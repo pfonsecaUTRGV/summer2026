@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages 
-
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -9,6 +9,7 @@ from django.contrib import messages
 def home(request): 
 	return render(request,'home.html',{})
 
+@login_required
 def about(request): 
 	return render(request,'about.html',{})
 
@@ -19,7 +20,7 @@ def register(request):
 			form.save()
 			messages.success(request,"Account created succesfully")
 			print("New user was created")
-			#return redirect("login")
+			return redirect("login")
 	else:
 		form = UserCreationForm()
 
