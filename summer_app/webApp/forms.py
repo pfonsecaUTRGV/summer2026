@@ -2,12 +2,10 @@
 
 # Create forms to manipulate data models
 
-#Import Django defaults
 from django import forms
 from django.contrib.auth.models import User
 
-#Import custom model defined in models.py
-from . models import Profile
+from .models import Profile
 
 
 class UserUpdateForm(forms.ModelForm):
