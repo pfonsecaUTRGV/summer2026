@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 #Import to update profile 
 from .forms import UserUpdateForm, ProfileUpdateForm
+from .models import Profile
 
 
 # Create your views here.
@@ -34,7 +35,7 @@ def register(request):
 	return render(request, "register.html",{"form":form})
 
 
-	#Method for C-RUD (Read, Update and Delete) the user profile
+#Method for C-RUD (Read, Update and Delete) the user profile
 @login_required
 def profile(request):
     profile_object, created = Profile.objects.get_or_create(
