@@ -15,7 +15,7 @@ class Profile(models.Model):
     )
 
     city = models.CharField(
-        max_length=100,
+        max_length=20,
         blank=True,
     )
 
