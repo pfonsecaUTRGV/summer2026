@@ -10,4 +10,5 @@ urlpatterns = [
 	path('logout/',auth_views.LogoutView.as_view(), name ='logout'),
 	path('about/',views.about,name='about'),
 	path('profile/',views.profile,name="profile"),
+	path('search/',views.pokemon_search,name = "pokemon_search"),
 ]

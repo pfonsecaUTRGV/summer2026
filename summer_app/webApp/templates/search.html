@@ -1,0 +1,41 @@
+<!-- templates/pokedex/search.html -->
+{% extends "pokedex/base.html" %}
+{% block content %}
+<h1>Pokémon Search</h1>
+<form method="POST">
+{% csrf_token %}
+<input
+type="text"
+name="pokemon"
+placeholder="Enter a Pokémon name"
+required
+>
+<button type="submit">Search</button>
+</form>
+{% if error %}
+<p>{{ error }}</p>
+{% endif %}
+{% if pokemon_data %}
+<hr>
+<h2>{{ pokemon_data.name|title }}</h2>
+{% if pokemon_data.image %}
+<img
+src="{{ pokemon_data.image }}"
+alt="{{ pokemon_data.name }}"
+width="180"
+>
+{% endif %}
+<p><strong>ID:</strong> {{ pokemon_data.id }}</p>
+<p><strong>Types:</strong> {{ pokemon_data.types|join:", " }}</p>
+{% if user.is_authenticated %}
+<form method="POST" action="{% url 'save_pokemon' %}">
+{% csrf_token %}
+<input type="hidden" name="pokemon_id" value="{{ pokemon_data.id }}">
+
+<button type="submit">Save Pokémon</button>
+</form>
+{% else %}
+<p>Log in to save this Pokémon to your collection.</p>
+{% endif %}
+{% endif %}
+{% endblock %}

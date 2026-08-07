@@ -100,13 +100,7 @@ def pokemon_search(request):
             response = requests.get(url)
             if response.status_code == 200:
                 data = response.json()
-                official_artwork =(
-                    data["sprites"]
-                    .get("other",{})
-                    .get(official-artwork,{})
-                    .get("front_default")
-
-                    )
+                
                 image_url = data["sprites"].get("front_defalut")
 
                 pokemon_data = {
@@ -123,7 +117,7 @@ def pokemon_search(request):
                 error = "Pokemon not found"    
     return render(
         request,
-        "pokedex/search.html",
+        "search.html",
         {
             "pokemon_data" : pokemon_data,
             "error" : error,
