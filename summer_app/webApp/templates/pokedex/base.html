@@ -1,0 +1,26 @@
+<!-- templates/pokedex/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Pokédex</title>
+</head>
+<body>
+<nav>
+<a href="{% url 'pokemon_search' %}">Search</a>
+{% if user.is_authenticated %}
+<a href="{% url 'my_pokemon' %}">My Pokémon</a>
+<form method="POST" action="{% url 'logout' %}" style="display:inline;">
+{% csrf_token %}
+<button type="submit">Logout</button>
+</form>
+{% else %}
+<a href="{% url 'login' %}">Login</a>
+<a href="{% url 'register' %}">Register</a>
+{% endif %}
+</nav>
+<hr>
+{% block content %}{% endblock %}
+</body>
+</html>

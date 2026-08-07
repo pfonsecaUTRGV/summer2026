@@ -3,10 +3,13 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages 
 from django.contrib.auth.decorators import login_required
 
+#Import requests library to execute http transactions 
+import requests
 
 #Import to update profile 
 from .forms import UserUpdateForm, ProfileUpdateForm
-from .models import Profile
+from .models import Profile , SavedPokemon
+
 
 
 # Create your views here.
@@ -83,3 +86,48 @@ def profile(request):
         "profile.html",
         context,
     )
+
+
+def pokemon_search(request):
+    pokemon_data = None
+    error = None 
+
+    if request.method == "POST":
+        pokemon= request.POST.get("pokemon","").strip().lower()
+
+        if pokemon:
+            url = f"https://pokeapi.co/api/v2/pokemon/{pokemon}"
+            response = requests.get(url)
+            if response.status_code == 200:
+                data = response.json()
+                official_artwork =(
+                    data["sprites"]
+                    .get("other",{})
+                    .get(official-artwork,{})
+                    .get("front_default")
+
+                    )
+                image_url = data["sprites"].get("front_defalut")
+
+                pokemon_data = {
+                    "id":data["id"],
+                    "name":data["name"],
+                    "types":[
+                        item["type"]["name"]
+                        for item in data["types"]
+                        ],
+                    "image": image_url,
+                        }
+
+            else: 
+                error = "Pokemon not found"    
+    return render(
+        request,
+        "pokedex/search.html",
+        {
+            "pokemon_data" : pokemon_data,
+            "error" : error,
+        },
+    )
+
+
