@@ -11,5 +11,6 @@ urlpatterns = [
 	path('about/',views.about,name='about'),
 	path('profile/',views.profile,name="profile"),
 	path('search/',views.pokemon_search,name = "pokemon_search"),
-	path('pokemon/save',views.save_pokemon,name="save_pokemon")
+	path('pokemon/save/',views.save_pokemon,name="save_pokemon"),
+	path('pokemon/saved/',views.saved_pokemon,name="saved_pokemon")
 ]

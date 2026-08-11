@@ -125,12 +125,13 @@ def pokemon_search(request):
     )
 
 @login_required
-def save_pokemon(reques):
+def save_pokemon(request):
     if request.method == "POST":
-        pokemon_id = requests.POST.get("pokemon_id")
+        pokemon_id = request.POST.get("pokemon_id")
         url = f"https://pokeapi.co/api/v2/{pokemon_id}"
-       
+        response = requests.get(url)
         if response.status_code == 200:
+            print("HTTP 200")
             data = response.json()
             pokemon_types = [
                 item["types"]["name"]
@@ -152,13 +153,23 @@ def save_pokemon(reques):
                 request,
                 f"{data['name'].title()} was saved"
                 )
+            print("Pokemon Saved")
     return redirect("pokemon_search")
 
 
 
+@login_required
+def saved_pokemon(request):
+    pokemons = SavedPokemon.objects.filter(
+        user = request.user).order_by("-saved_at")
 
-
-
+    return render(
+        request,
+        "saved_pokemon.html",
+        {
+            "pokemons":pokemons
+        }
+    )
 
 
 
