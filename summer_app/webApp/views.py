@@ -139,7 +139,7 @@ def save_pokemon(request):
                 ]
             image_url = data["sprites"].get("front_default")
             
-            SavedPokemon.objects.get_or_create(
+            SavedPokemon.objects.create(
                 user =request.user,
                 pokemon_id = data["id"],
                 defaults={
