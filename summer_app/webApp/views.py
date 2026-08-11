@@ -128,13 +128,14 @@ def pokemon_search(request):
 def save_pokemon(request):
     if request.method == "POST":
         pokemon_id = request.POST.get("pokemon_id")
-        url = f"https://pokeapi.co/api/v2/{pokemon_id}"
+        url = f"https://pokeapi.co/api/v2/pokemon/{pokemon_id}"
         response = requests.get(url)
+        print(response.status_code)
         if response.status_code == 200:
             print("HTTP 200")
             data = response.json()
             pokemon_types = [
-                item["types"]["name"]
+                item["type"]["name"]
                 for item in data["types"]
                 ]
             image_url = data["sprites"].get("front_default")
@@ -142,11 +143,10 @@ def save_pokemon(request):
             SavedPokemon.objects.create(
                 user =request.user,
                 pokemon_id = data["id"],
-                defaults={
-                    "name" : data["name"],
-                    "pokemon_types": ",".join(pokemon_types),
-                    "image": image_url,
-                }
+                name = data["name"],
+                pokemon_types =",".join(pokemon_types),
+                image = image_url,
+                
 
             )  
             messages.success(
