@@ -101,7 +101,7 @@ def pokemon_search(request):
             if response.status_code == 200:
                 data = response.json()
                 
-                image_url = data["sprites"].get("front_defalut")
+                image_url = data["sprites"].get("front_default")
 
                 pokemon_data = {
                     "id":data["id"],
@@ -123,5 +123,48 @@ def pokemon_search(request):
             "error" : error,
         },
     )
+
+@login_required
+def save_pokemon(reques):
+    if request.method == "POST":
+        pokemon_id = requests.POST.get("pokemon_id")
+        url = f"https://pokeapi.co/api/v2/{pokemon_id}"
+       
+        if response.status_code == 200:
+            data = response.json()
+            pokemon_types = [
+                item["types"]["name"]
+                for item in data["types"]
+                ]
+            image_url = data["sprites"].get("front_default")
+            
+            SavedPokemon.objects.get_or_create(
+                user =request.user,
+                pokemon_id = data["id"],
+                defaults={
+                    "name" : data["name"],
+                    "pokemon_types": ",".join(pokemon_types),
+                    "image": image_url,
+                }
+
+            )  
+            messages.success(
+                request,
+                f"{data['name'].title()} was saved"
+                )
+    return redirect("pokemon_search")
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

@@ -1,0 +1,67 @@
+{% extends "pokedex/base.html" %}
+
+{% block content %}
+
+<h1>My Pokémon</h1>
+
+{% if pokemons %}
+
+    <div class="row">
+
+        {% for pokemon in pokemons %}
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card">
+
+                {% if pokemon.image %}
+
+                <img
+                    src="{{ pokemon.image }}"
+                    class="card-img-top"
+                    alt="{{ pokemon.name }}"
+                    style="width: 180px; margin: auto;"
+                >
+
+                {% endif %}
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        {{ pokemon.name|title }}
+                    </h5>
+
+                    <p>
+                        <strong>ID:</strong>
+                        {{ pokemon.pokemon_id }}
+                    </p>
+
+                    <p>
+                        <strong>Types:</strong>
+                        {{ pokemon.pokemon_types }}
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+{% else %}
+
+    <p>You have not saved any Pokémon yet.</p>
+
+    <a
+        href="{% url 'pokemon_search' %}"
+        class="btn btn-primary"
+    >
+        Search Pokémon
+    </a>
+
+{% endif %}
+
+{% endblock %}
